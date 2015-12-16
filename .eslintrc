@@ -1,0 +1,33 @@
+{
+    "rules": {
+        "comma-dangle": 1,
+        "indent": [
+            2,
+            2
+        ],
+        "no-console": 1,
+        "no-unused-vars": 1,
+        "quotes": [
+            2,
+            "single"
+        ],
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "semi": [
+            1,
+            "never"
+        ]
+    },
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    "extends": "eslint:recommended",
+    "ecmaFeatures": {
+        "modules": true,
+        "experimentalObjectRestSpread": true
+    },
+    "parser": "babel-eslint",
+}

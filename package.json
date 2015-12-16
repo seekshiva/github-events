@@ -1,10 +1,11 @@
 {
   "name": "testing",
   "version": "1.0.0",
-  "description": "",
+  "description": "Testing...",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack -w"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,17 @@
   "bugs": {
     "url": "https://github.com/seekshiva/testing/issues"
   },
-  "homepage": "https://github.com/seekshiva/testing#readme"
+  "homepage": "https://github.com/seekshiva/testing#readme",
+  "devDependencies": {
+    "babel-core": "6.3.17",
+    "babel-eslint": "4.1.6",
+    "babel-loader": "6.2.0",
+    "eslint": "1.10.3",
+    "webpack": "1.12.9"
+  },
+  "dependencies": {
+    "@cycle/core": "5.0.1",
+    "@cycle/dom": "7.1.1",
+    "rx": "4.0.7"
+  }
 }
