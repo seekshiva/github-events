@@ -1,5 +1,4 @@
 /*eslint-env node */
-var webpack = require('webpack')
 
 module.exports = {
   entry: {
@@ -14,14 +13,8 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel?stage=0'
+        loader: 'babel'
       }
     ]
-  },
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin(
-      /* chunkName= */'vendor',
-      /* filename= */'vendor.bundle.js'
-    )
-  ]
+  }
 }
