@@ -29,6 +29,7 @@
   "dependencies": {
     "@cycle/core": "5.0.1",
     "@cycle/dom": "7.1.1",
+    "express": "4.13.3",
     "rx": "4.0.7"
   }
 }
