@@ -2,11 +2,11 @@
 
 module.exports = {
   entry: {
-    app: './app'
+    app: './app/server.js'
   },
   output: {
     path: 'builds',
-    filename: 'app.js'
+    filename: 'server.js'
   },
   module: {
     loaders: [
