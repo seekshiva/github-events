@@ -25,6 +25,25 @@ function forkEvent(event){
   ])
 }
 
+function pushEvent(event){
+  const { actor, payload : { commits } } = event
+  console.log(event);
+
+  return h('div', [
+    h('a', { href: actor.url }, actor.login),
+    //TODO started or stopped?
+    ' pushed ' + commits.length + ' commits:',
+    h('ul',
+      commits.map(commit =>
+        h('li', [
+          commit.message + ' - ',
+          h('a', { href: commit.author.email }, commit.author.name)
+        ])
+      )
+    )
+  ])
+}
+
 function gollumEvent(event){
   const { actor, payload : { pages } } = event
   return h('div', [
@@ -98,6 +117,9 @@ export default function showEvent(event) {
     break
   case 'ForkEvent':
     eventHandler = forkEvent
+    break
+  case 'PushEvent':
+    eventHandler = pushEvent
     break
   case 'PullRequestEvent':
     eventHandler = pullRequestEvent
