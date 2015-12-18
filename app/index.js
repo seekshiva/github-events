@@ -1,13 +1,16 @@
 import Rx from 'rx'
 import Cycle from '@cycle/core'
 import CycleDOM, { h } from '@cycle/dom'
+import showEvent from './showEvent.js'
+
 
 function main() {
   const reqUrlStream = Rx.Observable
     .just('https://api.github.com/repos/facebook/react/events')
 
   const responseStream = reqUrlStream.flatMap(url => fetch(url))
-  const eventsStream = responseStream.flatMap(response => response.json())
+  const eventsStream = responseStream
+    .flatMap(response => response.json())
     .startWith([])
 
   return {
@@ -18,10 +21,7 @@ function main() {
           ? 'Loading...'
           : '' + events.length + ' events'
         ),
-        h('ul', events.map(event => {
-          console.log(event);
-          return h('li', event.type)
-        }))
+        h('ul', events.map(showEvent))
       ]
     ))
   }
