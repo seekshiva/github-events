@@ -2,6 +2,7 @@ import Rx from 'rx'
 import Cycle from '@cycle/core'
 import CycleDOM, { h } from '@cycle/dom'
 import repoEvents from './repoEvents.js'
+import issueEvents from './issueEvents.js'
 
 
 function main(drivers) {
@@ -11,6 +12,7 @@ function main(drivers) {
     .startWith('issues')
 
   const repoEventsStream = repoEvents()
+  const issueEventsStream = issueEvents()
 
   return {
     DOM: Rx.Observable.just(0).map(() =>
@@ -22,7 +24,7 @@ function main(drivers) {
         ]),
         eventTypeStream.map(eventType =>
           eventType === 'issues'
-          ? h('h1', 'Issues has not been implemented yet. Coming soon..')
+          ? issueEventsStream.DOM
           : repoEventsStream.DOM
         )
       ])
