@@ -1,17 +1,7 @@
-import Rx from 'rx'
 import { h } from '@cycle/dom'
 import showEvent from './showEvent.js'
 
-export default function repoEvents(){
-  const reqUrlStream = Rx.Observable
-    .just('https://api.github.com/repos/facebook/react/events')
-
-  const responseStream = reqUrlStream.flatMap(url => fetch(url))
-
-  const eventsStream = responseStream
-    .flatMap(response => response.json())
-    .startWith([])
-
+export default function repoEvents({ eventsStream }){
   return {
     DOM: eventsStream.map(events => h('div', [
       h('h1',

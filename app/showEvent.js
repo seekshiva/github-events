@@ -27,7 +27,6 @@ function forkEvent(event){
 
 function pushEvent(event){
   const { actor, payload : { commits } } = event
-  console.log(event);
 
   return h('div', [
     h('a', { href: actor.url }, actor.login),
