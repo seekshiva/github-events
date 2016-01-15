@@ -2,16 +2,21 @@ import Cycle from '@cycle/core'
 import CycleDOM, { h } from '@cycle/dom'
 import eventStreamFetcher from './eventStreamFetcher.js'
 
+const defaultState = {
+  eventType: 'issues',
+  repo: 'facebook/react'
+}
+
 function main(drivers) {
   const eventTypeStream = drivers.DOM.select('select#eventTYpe')
     .events('change')
     .map(ev => ev.target.value)
-    .startWith('issues')
+    .startWith(defaultState.eventType)
 
   const repoStream = drivers.DOM.select('select#repo')
     .events('change')
     .map(ev => ev.target.value)
-    .startWith('facebook/react')
+    .startWith(defaultState.repo)
 
   const eventsStream = eventStreamFetcher(eventTypeStream, repoStream)
 
@@ -21,13 +26,48 @@ function main(drivers) {
       return h('div', [
         h('h1', 'GitHub Events'),
         h('select', { id: 'eventTYpe'}, [
-          h('option', { value: 'all'}, 'All Events'),
-          h('option', { value: 'issues', selected: true}, 'Issues')
+          h(
+            'option',
+            {
+              value: 'all',
+              selected: defaultState.eventType === 'all'
+            },
+            'All Events'
+          ),
+          h(
+            'option',
+            {
+              value: 'issues',
+              selected: defaultState.eventType === 'issues'
+            },
+            'Issues'
+          )
         ]),
         h('select', { id: 'repo'}, [
-          h('option', { value: 'facebook/react', selected: true}, 'facebook/react'),
-          h('option', { value: 'cyclejs/cycle-core'}, 'cyclejs/cycle-core'),
-          h('option', { value: 'cyclejs/cycle-dom'}, 'cyclejs/cycle-dom')
+          h(
+            'option',
+            {
+              value: 'facebook/react',
+              selected: defaultState.repo === 'facebook/react'
+            },
+            'facebook/react'
+          ),
+          h(
+            'option',
+            {
+              value: 'cyclejs/cycle-core',
+              selected: defaultState.repo === 'cyclejs/cycle-core'
+            },
+            'cyclejs/cycle-core'
+          ),
+          h(
+            'option',
+            {
+              value: 'cyclejs/cycle-dom',
+              selected: defaultState.repo === 'cyclejs/cycle-dom'
+            },
+            'cyclejs/cycle-dom'
+          )
         ]),
         eventListing.DOM
       ])
