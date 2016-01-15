@@ -16,21 +16,33 @@ export default function eventStreamFetcher(eventTypeStream, repoStream){
   const responseStream = reqUrlStream
     .flatMapLatest(url => fetch(url))
 
-  const eventsStream = responseStream
+  const baseEventsStream = responseStream
     .flatMap(response => response.json())
-    .startWith([])
+    .shareReplay(1)
+
+  const eventsStream = baseEventsStream.startWith([])
+
+  const lastFetchedEventStream = eventsStream
+    .withLatestFrom(eventTypeStream)
+    .map(([, eventType]) => eventType)
     .shareReplay(1)
 
   const repoEventsStream = repoEvents({ eventsStream })
   const issueEventsStream = issueEvents({ eventsStream })
+  lastFetchedEventStream.subscribe(() => {})
 
-  return eventsStream
-    .withLatestFrom(eventTypeStream)
-    .map(([, eventType]) => {
+  const loadingStatusStream = reqUrlStream.map(() => 1)
+    .merge(baseEventsStream.map(() => 0))
+
+  return loadingStatusStream
+    .combineLatest(lastFetchedEventStream)
+    .map(([isLoading, latestEventType]) => {
       return {
         DOM: h('div', [
-          h('div', eventType),
-          eventType === 'all'
+          h('div', {
+            innerHTML: isLoading ? 'Loading...' : '&nbsp;'
+          }),
+          latestEventType === 'all'
           ? h('div', repoEventsStream.DOM)
           : h('div', issueEventsStream.DOM)
         ])
