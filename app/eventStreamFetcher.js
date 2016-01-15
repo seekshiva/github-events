@@ -13,22 +13,27 @@ export default function eventStreamFetcher(eventTypeStream, repoStream){
 
       return 'https://api.github.com/repos/' + repoPath + suffix
     })
-  const responseStream = reqUrlStream.flatMapLatest(url => fetch(url))
+  const responseStream = reqUrlStream
+    .flatMapLatest(url => fetch(url))
 
   const eventsStream = responseStream
     .flatMap(response => response.json())
     .startWith([])
+    .shareReplay(1)
+
   const repoEventsStream = repoEvents({ eventsStream })
   const issueEventsStream = issueEvents({ eventsStream })
 
-  return eventTypeStream.map((eventType) => {
-    return {
-      DOM: h('div', [
-        h('div', eventType),
-        eventType === 'all'
-        ? h('div', repoEventsStream.DOM)
-        : h('div', issueEventsStream.DOM)
-      ])
-    }
-  })
+  return eventsStream
+    .withLatestFrom(eventTypeStream)
+    .map(([, eventType]) => {
+      return {
+        DOM: h('div', [
+          h('div', eventType),
+          eventType === 'all'
+          ? h('div', repoEventsStream.DOM)
+          : h('div', issueEventsStream.DOM)
+        ])
+      }
+    })
 }
