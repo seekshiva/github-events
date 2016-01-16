@@ -1,6 +1,7 @@
 import Cycle from '@cycle/core'
 import CycleDOM, { h } from '@cycle/dom'
 import eventStreamFetcher from './eventStreamFetcher.js'
+import repoSelector from './repoSelector'
 
 const defaultState = {
   eventType: 'issues',
@@ -43,32 +44,7 @@ function main(drivers) {
             'Issues'
           )
         ]),
-        h('select', { id: 'repo'}, [
-          h(
-            'option',
-            {
-              value: 'facebook/react',
-              selected: defaultState.repo === 'facebook/react'
-            },
-            'facebook/react'
-          ),
-          h(
-            'option',
-            {
-              value: 'cyclejs/cycle-core',
-              selected: defaultState.repo === 'cyclejs/cycle-core'
-            },
-            'cyclejs/cycle-core'
-          ),
-          h(
-            'option',
-            {
-              value: 'cyclejs/cycle-dom',
-              selected: defaultState.repo === 'cyclejs/cycle-dom'
-            },
-            'cyclejs/cycle-dom'
-          )
-        ]),
+        repoSelector().DOM,
         eventListing.DOM
       ])
     })
