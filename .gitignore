@@ -1,3 +1,4 @@
 node_modules
-builds
+#builds
+npm-debug.log
 *~
