@@ -1,5 +1,8 @@
 # GitHub events
 
+[![origin learning badge](https://img.shields.io/badge/origin-learning-blue.png)](https://github.com/insin/project-status-badges#project-status-badges)
+
+
 View the events stream for your favourite open source projects.
 
 ### Todo:
