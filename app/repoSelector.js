@@ -1,5 +1,8 @@
 import Rx from 'rx'
 import { h } from '@cycle/dom'
+import helper from 'hyperscript-helpers'
+
+const { select, option } = helper(h)
 
 export default function repoSelector() {
   const defaultRepo = 'facebook/react'
@@ -11,11 +14,8 @@ export default function repoSelector() {
   ])
   return {
     DOM: repoListStream.map(repoList =>
-      h(
-        'select',
-        { id: 'repo'},
-        repoList.map(repo =>
-          h('option', {
+      select('#repo', repoList.map(repo =>
+          option({
             selected: repo === defaultRepo
           }, repo)
         )
